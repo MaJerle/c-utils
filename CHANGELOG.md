@@ -2,6 +2,8 @@
 
 ## Develop
 
+- Rework library CMake with removed INTERFACE type
+
 ## 1.3.0
 
 - Add `LWUTIL_SET_VALUE_IF_PTR_NOT_NULL`
