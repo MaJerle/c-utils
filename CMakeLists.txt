@@ -13,34 +13,18 @@ if(NOT PROJECT_IS_TOP_LEVEL)
     add_subdirectory("lwutil")
 else() # Set as executable
     add_executable(${PROJECT_NAME})
-
-    # Add key executable block
-    target_sources(${PROJECT_NAME} PUBLIC
+    target_sources(${PROJECT_NAME} PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}/dev/main.c
     )
-
-    # Add key include paths
     target_include_directories(${PROJECT_NAME} PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/dev
-    )
-
-    # Compilation definition information
-    target_compile_definitions(${PROJECT_NAME} PUBLIC
-        WIN32
-        _DEBUG
-        CONSOLE
-        LWUTIL_DEV
-    )
-
-    # Compiler options
-    target_compile_options(${PROJECT_NAME} PRIVATE
-        -Wall
-        -Wextra
-        -Wpedantic
     )
 
     # Add subdir with lwutil and link to the project
     add_subdirectory("lwutil")
-    target_link_libraries(${PROJECT_NAME} lwutil)
+    target_link_libraries(${PROJECT_NAME} PUBLIC lwutil)
+
+    # Add additional compile settings to library, which will be propagated to executable (PUBLIC link)
+    target_compile_options(lwutil PUBLIC -Wall -Wextra -Wpedantic)
+    target_compile_definitions(lwutil PUBLIC WIN32 _DEBUG CONSOLE LWUTIL_DEV)
 endif()
